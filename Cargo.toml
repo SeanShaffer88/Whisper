@@ -1,0 +1,32 @@
+[package]
+name = "whisper"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+authors = ["Sean Shaffer"]
+description = "Offline speech-to-text behind one clean C ABI: whisper.cpp (pinned, vendored, hash-verified) with a Rust WAV front-end, returning JSON transcripts"
+license = "MIT"
+repository = "https://github.com/SeanShaffer88/Whisper"
+keywords = ["windows", "ffi", "speech-to-text", "whisper"]
+categories = ["os::windows-apis", "api-bindings", "multimedia::audio"]
+
+[lib]
+name = "whisper"
+crate-type = ["cdylib", "rlib", "staticlib"]
+
+# The Rust side is zero-dependency by design (house rule). The one
+# external component is whisper.cpp itself: never committed, pinned in
+# pins.txt, fetched + SHA-256-verified by fetch.sh / fetch.ps1 into
+# vendor/ (gitignored), built as static libraries by build.rs via CMake.
+# Without the vendored sources the crate still builds and unit-tests;
+# the engine entry points then report WS_ERR_NOT_SUPPORTED.
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+# Deliberately NOT panic = "abort" (a deviation from CrashKit): every
+# FFI entry point guards with catch_unwind, and the guard is the host
+# app's protection — it only works when panics unwind to the boundary.
