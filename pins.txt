@@ -1,0 +1,13 @@
+# Pinned upstream sources. fetch.sh / fetch.ps1 refuse to proceed when a
+# downloaded file's SHA-256 does not match the pin. Bump = change version
+# + hash together, in one commit, and re-run the e2e transcription proof.
+WHISPER_VERSION=1.9.5
+WHISPER_DIR=whisper.cpp-1.9.5
+WHISPER_URL=https://github.com/ggml-org/whisper.cpp/archive/refs/tags/v1.9.5.tar.gz
+WHISPER_SHA256=ff1a9053feb509ff9d7729703355541ae9690073a6b1c40eb692c962e0dc1720
+# Test fixture ONLY (not needed to build or use the DLL): the tiny.en
+# model the end-to-end transcription test runs against samples/jfk.wav
+# from the whisper.cpp tree above.
+TEST_MODEL_NAME=ggml-tiny.en.bin
+TEST_MODEL_URL=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.en.bin
+TEST_MODEL_SHA256=921e4cf8686fdd993dcd081a5da5b6c365bfde1162e72b08d75ac75289920b1f
